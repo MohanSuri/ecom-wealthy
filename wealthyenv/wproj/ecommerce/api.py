@@ -5,7 +5,10 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponse
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 import json
+
 
 class  ProductList(APIView):
 	def get(self, request, format=json):
@@ -86,17 +89,44 @@ class ProductByName(APIView):
 		serialized_products=ProductSerializer(product, many=True)
 		return Response(serialized_products.data)
 
-
-class User(APIView):
-
-	@api_view(['POST'])
+@api_view(['POST'])
+def createUser(request):
 	if request.method=='POST':
-		def createUser(self, request ):
-			serializer = UserSerializer(data=request.DATA)
-			if serializer.is_valid():
-            	serializer.save()
-            	return Response(serializer.data, status=status.HTTP_201_CREATED)
-        	else:
-            	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		data = request.body
+		serializer = UserSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+        	return Response(serializer.data, status=status.HTTP_201_CREATED)
+    	else:
+        	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def Order(request):
+	if request.method=='POST':
+		data = request.body
+		serializer = OrderSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+        	return Response(serializer.data, status=status.HTTP_201_CREATED)
+    	else:
+        	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MyOrders(APIView):
+	def getObj(self, user_id):
+		try:
+			return Product.objects.filter(user_id=user_id)
+			
+		except Exception, e:
+			raise Http404
+		else:
+			pass
+		finally:
+			pass
+
+	def get(self, request, user_id, format=json):
+		order=self.getObj(user_id)
+		serialized_products=ProductSerializer(order, many=True)
+		return Response(serialized_products.data)
 
 
