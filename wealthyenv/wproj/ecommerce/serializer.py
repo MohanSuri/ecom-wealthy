@@ -10,7 +10,6 @@ class ProductSerializer(serializers.ModelSerializer):
 			'product_price',
 			'product_description',
 			'product_color',
-			'sub_category',
 			)
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -24,6 +23,5 @@ class SubCategorySerializer(serializers.ModelSerializer):
 	class Meta(object):
 		model= SubCategories
 		fields=(
-			'category_name',
-			'sub_category_name'
+			'sub_category_name',
 			)

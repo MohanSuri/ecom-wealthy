@@ -7,3 +7,4 @@ from .models import *
 admin.site.register(Product)
 admin.site.register(Categories)
 admin.site.register(SubCategories)
+admin.site.register(Users)

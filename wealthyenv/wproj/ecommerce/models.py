@@ -26,9 +26,34 @@ class Product(models.Model):
     product_description=models.CharField(max_length=1000,default="")
     product_color=models.CharField(max_length=10,default="")
     sub_category_id = models.ForeignKey(SubCategories, on_delete=models.CASCADE)
+    def __str__(self):              # __unicode__ on Python 2
+        return "%s" % (self.product_name)
 
-            	
 
+class Users(models.Model):
+    user_id=models.AutoField(primary_key=True)
+    user_name=models.CharField(max_length=25,blank=False)
+    password=models.CharField(max_length=25,blank=False) 
+    user_mail_id=  models.EmailField()
+    user_phone_number=models.IntegerField(max_length=12,default=0)
+    user_address=models.CharField(max_length=300,default='')        	
+    def __str__(self):              # __unicode__ on Python 2
+        return "%s" % (self.user_name)
+
+class Orders(models.Model):
+    order_id=models.AutoField(primary_key=True)
+    user_id=models.ForeignKey(Users, on_delete=models.CASCADE)
+    order_address=models.CharField(max_length=300,blank=False)
+    payment_mode=models.CharField(max_length=20,blank=False)
+    product_name=models.CharField(max_length=10,blank=False)
+    product_price=models.IntegerField(max_length=20,blank=False)
+    product_description=models.CharField(max_length=300)
+    order_phone_number=models.IntegerField(max_length=12,default=0)
+    def __str__(self):              # __unicode__ on Python 2
+        return "%s" % (self.product_description)
+
+  
+        
 
 
 
