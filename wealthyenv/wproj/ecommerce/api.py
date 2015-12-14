@@ -45,7 +45,6 @@ class SubCategory(APIView):
 
 	def get(APIView, request, Category, format=json):
 		Category = request.GET.get('Category')
-		print Category
 		sub_cat=self.getObj(Category)
 		serialized_sub_categories=SubCategorySerializer(sub_cat)
 		return Response(serialized_sub_categories.data)
@@ -63,8 +62,7 @@ class ProductBySubCat(APIView):
 		finally:
 			pass
 
-	def get(APIView, request, SubCategory, format=json):
-		print SubCategory
+	def get(APIView, request, Category, format=json):
 		sub_cat = request.GET.get('SubCategory')
 		product=self.getObj(sub_cat)
 		serialized_products=ProductSerializer(product)
