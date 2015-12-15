@@ -1,7 +1,10 @@
 from .models import *
 
 from rest_framework import serializers
+'''
+Contains serializers for the models: Products, Users, Categories, SubCategories,Orders
 
+'''
 class ProductSerializer(serializers.ModelSerializer):
 	class Meta(object):
 		model= Product

@@ -2,7 +2,9 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
+'''
+Models for the fields: Products, Users, Categories, SubCategories,Orders
+'''
 
 
 class Categories(models.Model):
@@ -35,7 +37,7 @@ class Users(models.Model):
     user_name=models.CharField(max_length=25,blank=False)
     password=models.CharField(max_length=25,blank=False) 
     user_mail_id=  models.EmailField()
-    user_phone_number=models.IntegerField(max_length=12,default=0)
+    user_phone_number=models.IntegerField(default=0)
     user_address=models.CharField(max_length=300,default='')        	
     def __str__(self):              # __unicode__ on Python 2
         return "%s" % (self.user_name)
@@ -46,9 +48,9 @@ class Orders(models.Model):
     order_address=models.CharField(max_length=300,blank=False)
     payment_mode=models.CharField(max_length=20,blank=False)
     product_name=models.CharField(max_length=10,blank=False)
-    product_price=models.IntegerField(max_length=20,blank=False)
+    product_price=models.IntegerField(blank=False)
     product_description=models.CharField(max_length=300)
-    order_phone_number=models.IntegerField(max_length=12,default=0)
+    order_phone_number=models.IntegerField(default=0)
     def __str__(self):              # __unicode__ on Python 2
         return "%s" % (self.product_description)
 

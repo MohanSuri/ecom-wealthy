@@ -11,30 +11,22 @@ import json
 
 
 class  ProductList(APIView):
+	#Gets List of all products 
 	def get(self, request, format=json):
 		products=Product.objects.all()
 		serialized_products=ProductSerializer(products, many=True)
-		#serialized_products = serializers.serialize("json", products)
-		#return HttpResponse(data, mimetype="application/json")
 		return Response(serialized_products.data)
 
 
 class CategoryList(APIView):
-	"""docstring for ClassName"""
+	#Gets list of all categories
 	def get(self, request, format=json):
 		categories=Categories.objects.all()
 		serialized_categories=CategorySerializer(categories, many=True)
 		return Response(serialized_categories.data)
-		
-
-class SubCategoryList(APIView):
-	"""docstring for ClassName"""
-	def get(self, request, format=json):
-		sub_categories=SubCategories.objects.all()
-		serialized_sub_categories=SubCategorySerializer(sub_categories, many=True)
-		return Response(serialized_sub_categories.data)
 
 class SubCategory(APIView):
+	#Lists the subcategories based on Category name
 	def getObj(self, category_id):
 		try:
 			return SubCategories.objects.filter(category_id=category_id)
@@ -53,9 +45,9 @@ class SubCategory(APIView):
 
 
 class ProductBySubCat(APIView):
+	#Lists Products based on Subcategory name
 	def getObj(self, sub_category_id):
 		try:
-			print("-------------product---------------"+sub_category_id)
 			return Product.objects.filter(sub_category_id=sub_category_id)
 			
 		except Exception, e:
@@ -66,12 +58,12 @@ class ProductBySubCat(APIView):
 			pass
 
 	def get(self, request, sub_category_id, format=json):
-		print("sub_categorie_id------------"+sub_category_id)
 		product=self.getObj(sub_category_id)
 		serialized_products=ProductSerializer(product, many=True)
 		return Response(serialized_products.data)
 
 class ProductByName(APIView):
+	#Get product by it's full name
 	def getObj(self, product_name):
 		try:
 			return Product.objects.filter(product_name=product_name)
@@ -84,13 +76,13 @@ class ProductByName(APIView):
 			pass
 
 	def get(self, request, product_name, format=json):
-		print("sub_categorie_id------------"+product_name)
 		product=self.getObj(product_name)
 		serialized_products=ProductSerializer(product, many=True)
 		return Response(serialized_products.data)
 
 @api_view(['POST'])
 def createUser(request):
+	#Create a new User profile
 	if request.method=='POST':
 		data = request.body
 		serializer = UserSerializer(data=data)
@@ -102,6 +94,7 @@ def createUser(request):
 
 @api_view(['POST'])
 def Order(request):
+	#Post an order
 	if request.method=='POST':
 		data = request.body
 		serializer = OrderSerializer(data=data)
@@ -113,6 +106,7 @@ def Order(request):
 
 
 class MyOrders(APIView):
+	#Get all orders for a given user id
 	def getObj(self, user_id):
 		try:
 			return Product.objects.filter(user_id=user_id)
